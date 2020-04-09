@@ -5,9 +5,11 @@ import time
 import asyncio
 import discord
 from configparser import ConfigParser
-from queue import Queue
 config = ConfigParser()
-config.read('conf.ini')
+if os.path.exists('devconf.ini'):
+    config.read('devconf.ini')
+else:
+    config.read('conf.ini')
 conf = config['settings']
 TOKEN = conf['token']
 SITE = conf['praw_site']
@@ -16,9 +18,7 @@ CHANNEL_ID = conf.getint('channel_id')
 bot = discord.Client()
 @bot.event
 async def on_ready():
-    channel = bot.get_channel(CHANNEL_ID)
-    bot.bg_task = bot.loop.create_task(stream(channel))
-async def stream(ctx):
+    ctx = bot.get_channel(CHANNEL_ID)
     while True:
         for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
             if submission is None:
