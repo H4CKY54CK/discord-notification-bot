@@ -6,6 +6,7 @@ import asyncio
 import discord
 from configparser import ConfigParser
 config = ConfigParser()
+os.chdir(os.path.abspath(os.path.dirname(__file__)))
 if os.path.exists('devconf.ini'):
     config.read('devconf.ini')
 else:
@@ -31,7 +32,6 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
         pass
 if __name__ == '__main__':
-    os.chdir(os.path.abspath(os.path.dirname(__file__)))
     reddit = praw.Reddit(SITE)
     subreddit = reddit.subreddit(SUB)
     bot.run(TOKEN)
