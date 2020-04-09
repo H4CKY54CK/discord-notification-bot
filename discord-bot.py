@@ -20,13 +20,14 @@ bot = discord.Client()
 @bot.event
 async def on_ready():
     ctx = bot.get_channel(CHANNEL_ID)
-    while True:
+    while not bot.is_closed():
         for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
             if submission is None:
                 continue
             embed = discord.Embed(color=discord.Color.gold())
             embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
             await ctx.send(embed=embed)
+            await asyncio.sleep(.1)
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
