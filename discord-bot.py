@@ -28,10 +28,10 @@ async def on_ready():
             embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
             await ctx.send(embed=embed)
             await asyncio.sleep(.1)
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
-        pass
+# @bot.event
+# async def on_command_error(ctx, error):
+#     if isinstance(error, commands.CommandNotFound):
+#         pass
 if __name__ == '__main__':
     reddit = praw.Reddit(SITE)
     subreddit = reddit.subreddit(SUB)
