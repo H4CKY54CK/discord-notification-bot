@@ -34,4 +34,4 @@ async def on_command_error(ctx, error):
 if __name__ == '__main__':
     reddit = praw.Reddit(SITE)
     subreddit = reddit.subreddit(SUB)
-    bot.run(TOKEN)
+    sys.exit(bot.run(TOKEN))
