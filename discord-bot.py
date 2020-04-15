@@ -21,14 +21,28 @@ bot = discord.Client()
 async def on_ready():
     ctx = bot.get_channel(CHANNEL_ID)
     while True:
-        for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
-            if submission is None:
-                await asyncio.sleep(.1)
-                continue
-            embed = discord.Embed(color=discord.Color.gold())
-            embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
-            await ctx.send(embed=embed)
+        try:
+            reddit = praw.Reddit(SITE)
+            subreddit = reddit.subreddit(SUB)
+            for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
+                if submission is None:
+                    await asyncio.sleep(.1)
+                    continue
+                embed = discord.Embed(color=discord.Color.gold())
+                embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
+                await ctx.send(embed=embed)
+            except Exception as e:
+                with open("notification_bot_error_log.txt", 'w') as f:
+                    f.write(f"{e}")
+                reddit = praw.Reddit(SITE)
+                subreddit = reddit.subreddit(SUB)
+                for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
+                    if submission is None:
+                        await asyncio.sleep(.1)
+                        continue
+                    embed = discord.Embed(color=discord.Color.gold())
+                    embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
+                    await ctx.send(embed=embed)
+                
 if __name__ == '__main__':
-    reddit = praw.Reddit(SITE)
-    subreddit = reddit.subreddit(SUB)
     sys.exit(bot.run(TOKEN))
