@@ -20,10 +20,10 @@ bot = discord.Client()
 @bot.event
 async def on_ready():
     ctx = bot.get_channel(CHANNEL_ID)
+    reddit = praw.Reddit(SITE)
+    subreddit = reddit.subreddit(SUB)
     while True:
         try:
-            reddit = praw.Reddit(SITE)
-            subreddit = reddit.subreddit(SUB)
             for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
                 if submission is None:
                     await asyncio.sleep(.1)
