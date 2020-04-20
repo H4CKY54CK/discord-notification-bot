@@ -20,29 +20,20 @@ bot = discord.Client()
 @bot.event
 async def on_ready():
     ctx = bot.get_channel(CHANNEL_ID)
-    reddit = praw.Reddit(SITE)
-    subreddit = reddit.subreddit(SUB)
     while True:
         try:
-            for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
-                if submission is None:
+            reddit = praw.Reddit(SITE)
+            subreddit = reddit.subreddit(SUB)
+            logs = subreddit.mod.stream.log(skip_existing=True, action='approved', pause_after=0)
+            for item in logs:
+                if item is None:
                     await asyncio.sleep(.1)
                     continue
                 embed = discord.Embed(color=discord.Color.gold())
-                embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
+                embed.add_field(name=f"New Submission by {item.target_author}", value=f"{item.target_title}\n[Link to post](https://reddit.com{item.target_permalink})")
                 await ctx.send(embed=embed)
-            except Exception as e:
-                with open("notification_bot_error_log.txt", 'w') as f:
-                    f.write(f"{e}")
-                reddit = praw.Reddit(SITE)
-                subreddit = reddit.subreddit(SUB)
-                for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
-                    if submission is None:
-                        await asyncio.sleep(.1)
-                        continue
-                    embed = discord.Embed(color=discord.Color.gold())
-                    embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
-                    await ctx.send(embed=embed)
-                
+        except Exception as e:
+            continue
+
 if __name__ == '__main__':
     sys.exit(bot.run(TOKEN))
