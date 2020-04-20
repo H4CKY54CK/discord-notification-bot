@@ -24,7 +24,7 @@ async def on_ready():
         try:
             reddit = praw.Reddit(SITE)
             subreddit = reddit.subreddit(SUB)
-            logs = subreddit.mod.stream.log(skip_existing=True, action='approved', pause_after=0)
+            logs = subreddit.mod.stream.log(skip_existing=True, action='approve post', pause_after=0)
             for item in logs:
                 if item is None:
                     await asyncio.sleep(.1)
