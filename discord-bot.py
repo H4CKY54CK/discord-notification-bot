@@ -24,15 +24,12 @@ async def on_ready():
         try:
             reddit = praw.Reddit(SITE)
             subreddit = reddit.subreddit(SUB)
-            logs = subreddit.mod.stream.log(skip_existing=True, action='approve post', pause_after=0)
-            for item in logs:
-                if item is None:
             for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
                 if submission is None:
                     await asyncio.sleep(.1)
                     continue
                 embed = discord.Embed(color=discord.Color.gold())
-                embed.add_field(name=f"New Submission by {item.target_author}", value=f"{item.target_title}\n[Link to post](https://reddit.com{item.target_permalink})")
+                embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
                 await ctx.send(embed=embed)
         except Exception as e:
             continue
