@@ -27,6 +27,8 @@ async def on_ready():
             logs = subreddit.mod.stream.log(skip_existing=True, action='approve post', pause_after=0)
             for item in logs:
                 if item is None:
+            for submission in subreddit.stream.submissions(skip_existing=True, pause_after=0):
+                if submission is None:
                     await asyncio.sleep(.1)
                     continue
                 embed = discord.Embed(color=discord.Color.gold())
