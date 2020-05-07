@@ -1,0 +1,16 @@
+CHANGE LOG
+==========
+
+5-7-2020
+-------------
+
+**Changed**
+
+* Attempted to alter the way it establishes a connection in an attempt to stop duplicate postings.
+
+Unknown Date
+-------------
+
+**Fixed (Undocumented)**
+
+* Script is now killable.
