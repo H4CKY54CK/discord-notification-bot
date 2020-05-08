@@ -39,7 +39,8 @@ async def on_ready():
                     try:
                         embed.add_field(name="Content", value=item.self[:64])
                     except:
-                        embed.set_image(url=f"https://reddit.com{item.url}")
+                        # embed.set_image(url=f"https://reddit.com{item.url}")
+                        pass
                     seen.append(submission.id)
                     await channel.send(embed=embed)
         except Exception as e:
