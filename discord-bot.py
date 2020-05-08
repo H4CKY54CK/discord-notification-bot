@@ -36,11 +36,11 @@ async def on_ready():
                     embed = discord.Embed(color=discord.Color.gold())
                     embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
                     seen.append(submission.id)
-                    try:
-                        text = flairs[str(submission.author)]['text']
-                        embed.set_footer(text=f'<b>{text}</b>')
-                    except:
-                        pass
+                    # try:
+                    #     text = flairs[str(submission.author)]['text']
+                    #     embed.set_footer(text=text)
+                    # except:
+                    #     pass
                 await channel.send(embed=embed)
         except Exception as e:
             with open('dbot-errors.txt', 'a') as f:
