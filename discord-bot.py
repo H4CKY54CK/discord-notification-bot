@@ -34,14 +34,14 @@ async def on_ready():
                     continue
                 if submission.approved and submission.id not in seen:
                     embed = discord.Embed(color=discord.Color.gold())
-                    embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
+                    # embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
+                    embed.add_field(name="Title", value=item.title)
+                    try:
+                        embed.add_field(name="Content", value=item.self[:64])
+                    except:
+                        embed.set_image(url=f"https://reddit.com{item.url}")
                     seen.append(submission.id)
-                    # try:
-                    #     text = flairs[str(submission.author)]['text']
-                    #     embed.set_footer(text=text)
-                    # except:
-                    #     pass
-                await channel.send(embed=embed)
+                    await channel.send(embed=embed)
         except Exception as e:
             with open('dbot-errors.txt', 'a') as f:
                 f.write(f"{e}\n\n")
