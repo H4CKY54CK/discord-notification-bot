@@ -35,9 +35,9 @@ async def on_ready():
                 if submission.approved and submission.id not in seen:
                     embed = discord.Embed(color=discord.Color.gold())
                     # embed.add_field(name=f"New Submission by {submission.author}", value=f"{submission.title}\n[Link to post](https://reddit.com{submission.permalink})")
-                    embed.add_field(name="Title", value=item.title)
+                    embed.add_field(name="Title", value=submission.title)
                     try:
-                        embed.add_field(name="Content", value=item.self[:64])
+                        embed.add_field(name="Content", value=submission.self[:64])
                     except:
                         # embed.set_image(url=f"https://reddit.com{item.url}")
                         pass
